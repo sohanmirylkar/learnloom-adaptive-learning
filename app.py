@@ -27,7 +27,11 @@ def create_app(config=None):
     def login_required(view):
         @wraps(view)
         def wrapped(*args, **kwargs):
-            return view(*args, **kwargs) if session.get("user_id") else redirect(url_for("login"))
+            if not session.get("user_id") or not app.store.find_one("users", {"_id": session["user_id"]}):
+                session.clear()
+                flash("Your session expired. Please sign in again.", "error")
+                return redirect(url_for("login"))
+            return view(*args, **kwargs)
         return wrapped
 
     @app.get("/")
@@ -120,4 +124,3 @@ app = create_app()
 
 if __name__ == "__main__":
     app.run(debug=True)
-
