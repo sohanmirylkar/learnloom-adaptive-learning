@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ "Join" if mode == "register" else "Welcome back" }} · LearnLoom{% endblock %}
+{% block body %}
+<main class="auth-shell">
+  <a class="brand" href="/">Learn<span>Loom</span></a>
+  <form class="auth-card" method="post">
+    <p class="eyebrow">{{ "Your path starts here" if mode == "register" else "Continue learning" }}</p>
+    <h1>{{ "Create your account" if mode == "register" else "Welcome back" }}</h1>
+    {% for category, message in get_flashed_messages(with_categories=true) %}<p class="flash {{ category }}">{{ message }}</p>{% endfor %}
+    {% if mode == "register" %}<label>Name<input name="name" required autocomplete="name" placeholder="Alex Morgan"></label>{% endif %}
+    <label>Email<input name="email" type="email" required autocomplete="email" placeholder="alex@example.com"></label>
+    <label>Password<input name="password" type="password" required minlength="8" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" placeholder="At least 8 characters"></label>
+    {% if mode == "register" %}
+    <fieldset><legend>What do you want to learn?</legend>
+      <div class="chips">{% for value, label in [("python","Python"),("analytics","Analytics"),("nlp","NLP"),("backend","Backend"),("ml","Machine learning")] %}<label><input type="checkbox" name="interests" value="{{ value }}"><span>{{ label }}</span></label>{% endfor %}</div>
+    </fieldset>
+    {% endif %}
+    <button class="button primary" type="submit">{{ "Build my learning path" if mode == "register" else "Sign in" }}</button>
+    <p class="switch">{{ "Already have an account?" if mode == "register" else "New to LearnLoom?" }} <a href="{{ '/login' if mode == 'register' else '/register' }}">{{ "Sign in" if mode == "register" else "Create an account" }}</a></p>
+  </form>
+</main>
+{% endblock %}
+

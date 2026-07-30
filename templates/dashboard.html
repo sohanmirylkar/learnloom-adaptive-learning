@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Your learning path · LearnLoom{% endblock %}
+{% block body %}
+<header class="dash-header"><a class="brand" href="/">Learn<span>Loom</span></a><div><span class="avatar">{{ user.name[0]|upper }}</span><b>{{ user.name }}</b><form method="post" action="/logout"><button>Sign out</button></form></div></header>
+<main class="dashboard">
+  {% for category, message in get_flashed_messages(with_categories=true) %}<p class="flash {{ category }}">{{ message }}</p>{% endfor %}
+  <section class="welcome"><div><p class="eyebrow">Your learning space</p><h1>Good to see you, {{ user.name.split()[0] }}.</h1><p>Your recommendations have been tuned to your pace and interests.</p></div><div class="streak"><b>{{ completed + 2 }}</b><span>day momentum</span></div></section>
+  <section class="stats">
+    <article><small>Courses completed</small><b>{{ completed }}</b><span>Keep building your streak</span></article>
+    <article><small>Focused minutes</small><b>{{ minutes }}</b><span>Across your learning path</span></article>
+    <article><small>Engagement score</small><b>{{ engagement }}%</b><span>Based on recent activity</span></article>
+  </section>
+  <div class="dash-grid">
+    <section>
+      <div class="section-title"><div><p class="eyebrow">Chosen for you</p><h2>Your next best steps</h2></div><span>Updated now</span></div>
+      <div class="recommendations">
+      {% for item in recommendations %}
+        <article class="recommendation">
+          <div class="score">{{ item.match }}<small>% match</small></div>
+          <div><span class="level">{{ item.course.level }}</span><h3>{{ item.course.title }}</h3><p>{{ item.course.description }}</p><small class="reason">✦ {{ item.reason|capitalize }}</small></div>
+          <form method="post" action="/courses/{{ item.course._id }}/event"><input type="hidden" name="action" value="completed"><input name="score" type="number" min="0" max="100" value="85" aria-label="Assessment score"><button class="button small">Mark complete</button></form>
+        </article>
+      {% endfor %}
+      </div>
+    </section>
+    <aside>
+      <section class="feedback-card"><p class="eyebrow">Make it yours</p><h2>How is learning feeling?</h2><p>Your words help us tune difficulty, format, and topic choices.</p><form method="post" action="/feedback"><textarea name="feedback" required minlength="5" placeholder="The NLP lesson was clear, but I’d love more practical examples."></textarea><button class="button primary" type="submit">Share feedback</button></form></section>
+      <section class="signal-card"><h3>Recent feedback signals</h3>{% if feedback %}{% for item in feedback %}<div><span class="sentiment {{ item.sentiment }}">{{ item.sentiment }}</span><p>{{ item.text|truncate(72) }}</p></div>{% endfor %}{% else %}<p>No signals yet. Tell us how your first lesson feels.</p>{% endif %}</section>
+    </aside>
+  </div>
+  <section class="library"><div class="section-title"><div><p class="eyebrow">Explore freely</p><h2>Learning library</h2></div></div><div class="course-grid">{% for course in courses %}<article><span class="level">{{ course.level }}</span><h3>{{ course.title }}</h3><p>{{ course.description }}</p><footer><span>{{ course.minutes }} min</span><form method="post" action="/courses/{{ course._id }}/event"><input type="hidden" name="action" value="viewed"><button>Explore →</button></form></footer></article>{% endfor %}</div></section>
+</main>
+{% endblock %}
+

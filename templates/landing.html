@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body %}
+<main class="landing">
+  <nav><a class="brand" href="/">Learn<span>Loom</span></a><a class="nav-link" href="/login">Sign in</a></nav>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Learning that listens</p>
+      <h1>A learning path woven around <em>you.</em></h1>
+      <p class="lead">LearnLoom adapts to your goals, performance, and feedback—so every session moves you forward.</p>
+      <div class="actions"><a class="button primary" href="/register">Start learning free</a><a class="button ghost" href="#how">See how it works</a></div>
+      <div class="proof"><strong>6</strong> curated paths <span></span><strong>Real-time</strong> adaptation <span></span><strong>NLP</strong> feedback</div>
+    </div>
+    <div class="hero-card">
+      <p class="tiny-label">Your next best lesson</p>
+      <div class="match-ring"><b>94%</b><small>match</small></div>
+      <h3>Practical NLP</h3>
+      <p>Because you’re progressing quickly in Python and asked for more hands-on analytics.</p>
+      <div class="course-meta"><span>Intermediate</span><span>55 min</span></div>
+    </div>
+  </section>
+  <section id="how" class="features">
+    <article><b>01</b><h2>Tell us what matters</h2><p>Choose your interests and learning goals. No lengthy assessment required.</p></article>
+    <article><b>02</b><h2>Learn at your pace</h2><p>Your path responds to completed lessons, assessment scores, and engagement.</p></article>
+    <article><b>03</b><h2>Shape what comes next</h2><p>Natural-language feedback becomes a signal for better recommendations.</p></article>
+  </section>
+</main>
+{% endblock %}
+
